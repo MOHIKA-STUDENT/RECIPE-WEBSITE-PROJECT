@@ -1,5 +1,5 @@
 RECIPE-WEBSITE-PROJECT
-Recipe is a web-based platform designed to help users discover and share a wide variety of recipes.
+Recipe website is a web-based platform designed to help users discover and share a wide variety of recipes.
 The platform provides an intuitive interface that allows users to search for recipes based on their preferences, upload their own unique recipes.
 
 Features
