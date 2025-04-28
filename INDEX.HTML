@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMART RECIPE -Try it Yourself</title>
+    <meta name="title" content = "Smart Recipe - Try It Yourself"> 
+    <meta name="description"  content="A web application that allows users to create enjoy their comfortfoods">
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <footer class="footer">
+    </footer>
+</body>
+</html>
+<?php
+
+$server = "localhost";
+$username = "root";
+$password = "";
+$database = "user_data";
+$conn = mysqli_connect($server, $username, $password, $database);
+
+if (!$conn) {
+    echo "Not Connected to the Database";
+} else {
+    echo "Connected Successfully";
+}
+
+if (isset($_POST["save"])) {
+    $Username = $_POST["Username"];
+    $Email = $_POST["Email_ID"];
+    $Password = $_POST["Password"];
+
+    $sql_query = "INSERT INTO user_info (Username, Email_ID, Password)
+                  VALUES ('$Username', '$Email', '$Password')";
+
+    if (mysqli_query($conn, $sql_query)) {
+        echo "New Details Entry inserted successfully!";
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
+}
+
+mysqli_close($conn);
+
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
+session_start();
+include("save.php");
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    if (isset($_POST["save"])) {
+        $Email_ID = $_POST["Email_ID"];
+        $Password = $_POST["Password"];
+        if (!empty($Email_ID) && !empty($Password)) {
+            $sql_query = "SELECT * FROM user_info WHERE Email_ID ='$Email_ID' LIMIT 1";
+            $result = mysqli_query($conn, $sql_query);
+            if ($result && mysqli_num_rows($result) > 0) {
+                $user_info = mysqli_fetch_assoc($result);
+                if ($user_info['Password'] == $Password) {
+                    $_SESSION['Email_ID'] == $user_info['Email_ID'];
+                    header("location: home.php");
+                    exit;
+                }
+            }
+        }
+        echo "<script type='text/javascript'> alert('Wrong EmailID or Password ') </script>";
+    } else {
+        echo "<script type='text/javascript'> alert('Wrong EmailID or Password') </script>";
+    }
+    mysqli_close($conn);
+}
+
+
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<?php
+session_start();
+include("save.php");
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    if (isset($_POST["save"])) {
+        $Email_ID = $_POST["Email_ID"];
+        $Password = $_POST["Password"];
+        if (!empty($Email_ID) && !empty($Password)) {
+            $sql_query = "SELECT * FROM user_info WHERE Email_ID ='$Email_ID' LIMIT 1";
+            $result = mysqli_query($conn, $sql_query);
+            if ($result && mysqli_num_rows($result) > 0) {
+                $user_info = mysqli_fetch_assoc($result);
+                if ($user_info['Password'] == $Password) {
+                    $_SESSION['Email_ID'] = $user_info['Email_ID'];
+                    echo "<script type='text/javascript'> alert('Successfully Login ');
+                        window.location.href = 'home.php'; </script>";
+                    exit;
+
+                }
+            }
+        }
+
+
+        echo "<script type='text/javascript'> alert('Wrong EmailID or Password ') </script>";
+    } else {
+        echo "<script type='text/javascript'> alert('Wrong EmailID or Password') </script>";
+
+
+    }
+
+
+}
+?>

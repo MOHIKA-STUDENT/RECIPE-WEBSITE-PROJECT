@@ -1,0 +1,5 @@
+// settings.json
+{
+    "liveServer.settings.CustomBrowser": "default",
+    "liveServer.settings.defaultFiles": ["pages/home.html"]
+}
